@@ -27,7 +27,12 @@ def raise_if_not_exists(model):
 
 @api.before_request
 def before_request():
-    if request.remote_addr not in (env['REMOTE_ADDR'], '127.0.0.1'):
+    print(request.environ)
+    remote_addr = request.remote_addr
+    if (
+        remote_addr not in (env['REMOTE_ADDR'], '127.0.0.1')
+        or not remote_addr.startswith('10')
+    ):
         abort(401)
 
 
